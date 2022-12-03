@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loader, setLoader] = useState(false);
 
   const submitHandler = async (e: React.ChangeEvent<any>) => {
     e.preventDefault();
@@ -35,6 +36,8 @@ const Login = () => {
         mode: "no-cors",
       },
     };
+
+    setLoader(true);
     try {
       await axios
         .post(
@@ -46,6 +49,7 @@ const Login = () => {
           setTimeout(() => {
             toast.success(response.data.message, { autoClose: 5000 });
             localStorage.setItem("authAdmin", JSON.stringify(response.data));
+            localStorage.removeItem("authUser");
             Router.replace({
               pathname: "/[authcode]/dashboard",
               query: {
@@ -60,6 +64,8 @@ const Login = () => {
     } catch (error) {
       console.error(error);
     }
+
+    setLoader(false);
   };
   return (
     <Box height="100vh">
@@ -156,6 +162,7 @@ const Login = () => {
                 fontWeight="500"
                 borderRadius="1.2em"
                 boxShadow="xl"
+                isLoading={loader}
               >
                 LOGIN
               </Button>

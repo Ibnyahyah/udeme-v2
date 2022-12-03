@@ -20,8 +20,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   React.useEffect(() => {
-    const { token } = JSON.parse(localStorage.getItem("user") as any);
-    token ? router.push("/") : router.push("/auth/login");
+    const user = JSON.parse(localStorage?.getItem("user") as any);
+    // user?.token ? router.push("/") : router.push("/auth/login");
   }, []);
   return (
     <ChakraProvider>

@@ -1,8 +1,8 @@
 import { Image } from "@chakra-ui/image";
-import { Box, Container, Flex, Heading, Stack } from "@chakra-ui/layout";
+import { Box, Container, Flex, Heading, Stack, Text } from "@chakra-ui/layout";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
 
@@ -10,6 +10,22 @@ export const Header = () => {
   const [showNav, setShowNav] = useState(false);
   const mobileNavHandler = () => setShowNav(!showNav);
   const router = useRouter();
+  const [userName, setUserName] = useState("");
+  useEffect(() => {
+    let user = JSON.parse(localStorage?.getItem("authUser") as any);
+    if (!user) return;
+
+    if (user?.message?.includes("Admin"))
+      return setUserName(user?.data?.first_name);
+
+    if (user?.data)
+      if (user?.data?.message?.includes("Admin")) {
+        console.log(user?.data);
+      }
+
+    if (user?.data?.data?.full_name)
+      return setUserName(user?.data?.data?.full_name?.split(" ")[0]);
+  });
 
   return (
     <header>
@@ -62,14 +78,19 @@ export const Header = () => {
                 >
                   <Link href="/submit-request">Submit Request</Link>
                 </Box>
+
+                <Box
+                  color={router.pathname === "/resources" ? "gray.800" : "#fff"}
+                >
+                  <Link href="/resources">Resources</Link>
+                </Box>
+
+                {userName !== "" && (
+                  <Box>
+                    <Text>{`Hi, ${userName}`}</Text>
+                  </Box>
+                )}
               </Stack>
-              {/* // TODO: If user.loggedIn && profile picture
-              <Box
-                width="2.5rem"
-                height="2.5rem"
-                bgColor="gray.300"
-                borderRadius="full"
-              ></Box> */}
             </Stack>
             <Box
               display={["block", "none"]}

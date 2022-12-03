@@ -53,7 +53,7 @@ const SignUp = () => {
           setTimeout(() => {
             // localStorage.setItem("authUser", JSON.stringify(response.data));
             Router.replace("/auth/login");
-          }, 1500);
+          }, 1000);
           toast.success(response.data.message, { autoClose: 5000 });
         })
         .catch((err) =>

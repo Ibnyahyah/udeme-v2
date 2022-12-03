@@ -18,6 +18,10 @@ export const DashboardWapper = ({
       title: "Manage Categories",
       link: `/manage-category`,
     },
+    {
+      title: "Manage Reports",
+      link: `/manage-reports`,
+    },
   ];
 
   return (

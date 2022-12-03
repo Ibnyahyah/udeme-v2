@@ -1,11 +1,50 @@
-import { Container, Heading, Stack, Text } from "@chakra-ui/layout";
-import { Input, InputGroup, InputRightAddon } from "@chakra-ui/react";
+import { Box, Container, Heading, Stack, Text } from "@chakra-ui/layout";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Button,
+  Input,
+  InputGroup,
+  InputRightAddon,
+  Image,
+} from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
+import Link from "next/link";
 import { BsSearch } from "react-icons/bs";
 
 const Home: NextPage = () => {
+  const faqs = [
+    {
+      title: "Q1. Where can I find guidance to download project documents?",
+      content:
+        "You can click on 'project' on our website to see all project documents available for download. If you are unable to do so, you can also contact us for assistance.",
+    },
+    {
+      title: "Q2. Can I report projects from my community?",
+      content:
+        "Yes, you can. Use the 'Submit report' to report projects from your community. Use the question prompts to submit the project",
+    },
+    {
+      title: "Q3. Will I be paid if I volunteer on the project?",
+      content:
+        "You can join our network of volunteers by sending us the status of projects in your community. You will not be paid for it. The U-Monitors program affords you the opportunity to become a paid volunteer on UDEME. Follow us on all social media platforms to know when the next round will be opening.",
+    },
+    {
+      title: "Q4. Can I report any project I see?",
+      content:
+        "Yes, you can. However, UDEME works with project documents (federal, state or local government) which are evidence-based.",
+    },
+    {
+      title:
+        "Q5. Is the Constituency project the same as Zonal Intervention projects?",
+      content:
+        "Yes, they are the same. ZIPs are projects nominated by lawmakers at the National Assembly. Please note that state legislators also nominate projects for their constituencies, tagged 'constituency projects' in most state budgets.",
+    },
+  ];
   return (
     <div>
       <Head>
@@ -51,6 +90,75 @@ const Home: NextPage = () => {
               </InputRightAddon>
             </InputGroup>
           </Stack>
+
+          <Stack
+            direction={{ md: "row" }}
+            alignItems="center"
+            justifyContent="space-between"
+            my="1em"
+          >
+            <Box width={["100%", "90%", "100%"]}>
+              <Heading fontSize="1em">CITIZENS FORUM</Heading>
+
+              <Heading fontSize="1.5em" mt="1em">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </Heading>
+
+              <Text my="1em">
+                Lorem ipsum dolor sit amet, consectetur adipis cing elit. Lectus
+                gravida morbi consectetur nullam diam egestas id etiam. Aliquet
+                quis suspendisse erat dictum lectus ridiculus odio eget et.
+              </Text>
+
+              <Button
+                bgColor="#092A1E"
+                color="#fff"
+                borderRadius="1.5em"
+                px="1.5em"
+              >
+                <Link href="/auth/signup">Sign up</Link>
+              </Button>
+            </Box>
+            <Box width={["100%", "90%", "100%"]}>
+              <Image
+                src="/assets/home_hero.svg"
+                width={{ base: "100%" }}
+                height="400px"
+                objectFit="contain"
+              />
+            </Box>
+          </Stack>
+          <Container
+            maxWidth="container.md"
+            mx="auto"
+            p={["1em", "2em"]}
+            boxShadow="2xl"
+            borderRadius=".3em"
+          >
+            <Heading fontSize="2xl" textAlign="center" mt=".8em" mb="2em">
+              Frequently asked questions (FAQs)
+            </Heading>
+            <Accordion defaultIndex={[0]} allowMultiple>
+              {faqs.map((faq: any, idx: number) => {
+                return (
+                  <AccordionItem key={idx}>
+                    <h2>
+                      <AccordionButton
+                        _expanded={{ bg: "blackAlpha.300" }}
+                        py="1em"
+                      >
+                        <Box flex="1" textAlign="left">
+                          {faq.title}
+                        </Box>
+                        <AccordionIcon />
+                      </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>{faq.content}</AccordionPanel>
+                  </AccordionItem>
+                );
+              })}
+            </Accordion>
+          </Container>
         </Container>
       </main>
     </div>

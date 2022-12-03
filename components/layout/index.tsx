@@ -10,24 +10,13 @@ export const Layout = ({
 }) => {
   const router = useRouter();
   const { pathname } = router;
+  const onAuthPage = pathname.includes("auth");
 
   return (
     <div>
-      <div>
-        {pathname === "/[authcode]/auth/signup" ||
-        pathname === "/[authcode]/auth/login" ? null : (
-          <Header />
-        )}
-      </div>
-
+      <div>{onAuthPage ? null : <Header />}</div>
       <main>{children}</main>
-
-      <div>
-        {pathname === "/[authcode]/auth/signup" ||
-        pathname === "/[authcode]/auth/login" ? null : (
-          <Footer />
-        )}
-      </div>
+      <div>{onAuthPage ? null : <Footer />}</div>
     </div>
   );
 };

@@ -19,31 +19,8 @@ import React, { useState } from "react";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loader, setLoader] = useState(false);
 
-  // const submitHandler = async (e: React.ChangeEvent<any>) => {
-  //   e.preventDefault();
-  //   const payload = {
-  //     'username': email,
-  //     'password': password,
-  //   };
-  //   const options = {
-  //     url: `${process.env.NEXT_PUBLIC_ENDPOINT}api/v1/auth/login`,
-  //     method: "POST",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //     },
-  //     payload,
-  //   };
-  //   console.log(payload);
-  //   try {
-  //     const res = await axios(options)
-  //       .then((response) => console.log(response))
-  //       .catch((err) => console.log(err));
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
   const submitHandler = async (e: React.ChangeEvent<any>) => {
     e.preventDefault();
     const payload = {
@@ -56,7 +33,8 @@ const Login = () => {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     };
-    console.log(payload);
+    // console.log(payload);
+    setLoader(true);
     try {
       const res = await axios
         .post(
@@ -67,14 +45,19 @@ const Login = () => {
         .then((response) => {
           setTimeout(() => {
             localStorage.setItem("authUser", JSON.stringify(response.data));
+            localStorage.removeItem("authAdmin");
             Router.replace("/");
           }, 1500);
           toast.success(response.data.message, { autoClose: 5000 });
         })
-        .catch((err) => toast.error(err.response.data.detail, { autoClose: 5000 }));
+        .catch((err) =>
+          toast.error(err.response.data.detail, { autoClose: 5000 })
+        );
     } catch (err) {
       console.error(err);
     }
+
+    setLoader(false);
   };
   return (
     <Box height="100vh">
@@ -130,6 +113,7 @@ const Login = () => {
                 py=".8em"
                 fontWeight="500"
                 borderRadius="1.2em"
+                isLoading={loader}
               >
                 Sign Up
               </Button>
